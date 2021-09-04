@@ -81,6 +81,34 @@ namespace Azuretodo.Functions.Functions
             });
         }
 
+        [FunctionName(nameof(GetTodoById))]
+        public static IActionResult GetTodoById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "todo/{id}")] HttpRequest req,
+            [Table("todo", "TODO", "{id}", Connection = "AzureWebJobsStorage")] TodoEntity todoEntity,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Get by Id: {id} received.");
+
+            if (todoEntity == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    IsSuccess = false,
+                    Message = "Todo not found."
+                });
+            }
+
+            string message = $"Todo Id: {id} retrieved.";
+            log.LogInformation(message);
+
+            return new ObjectResult(new Response
+            {
+                IsSuccess = true,
+                Result = todoEntity
+            });
+        }
+
         [FunctionName(nameof(UpdateTodo))]
         public static async Task<IActionResult> UpdateTodo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "todo/{id}")] HttpRequest req,
