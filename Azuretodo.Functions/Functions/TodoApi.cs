@@ -24,8 +24,6 @@ namespace Azuretodo.Functions.Functions
         {
             log.LogInformation("Recieved a new Todo.");
 
-            string name = req.Query["name"];
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             Todo todo = JsonConvert.DeserializeObject<Todo>(requestBody);
 
@@ -58,6 +56,62 @@ namespace Azuretodo.Functions.Functions
             {
                 IsSuccess = true,
                 Result = todoEntity
+            });
+        }
+
+        [FunctionName(nameof(UpdateTodo))]
+        public static async Task<IActionResult> UpdateTodo(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "todo/{id}")] HttpRequest req,
+            [Table("todo", Connection = "AzureWebJobsStorage")] CloudTable todoTable,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Recieved an update Todo for {id}");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            Todo todo = JsonConvert.DeserializeObject<Todo>(requestBody);
+
+            if(todo != null)
+            {
+                // Validate todo id
+                TableOperation findOperation = TableOperation.Retrieve<TodoEntity>("TODO", id);
+                TableResult findResult = await todoTable.ExecuteAsync(findOperation);
+
+                if (findResult.Result == null)
+                {
+                    return new BadRequestObjectResult(new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Todo not found."
+                    });
+                }
+
+                // Update todo
+                TodoEntity todoEntity = (TodoEntity)findResult.Result;
+                todoEntity.IsCompleted = todo.IsCompleted;
+
+                if (!string.IsNullOrEmpty(todo?.TaskDescription))
+                {
+                    todoEntity.TaskDescription = todo.TaskDescription;
+                }
+
+                TableOperation updOperation = TableOperation.Replace(todoEntity);
+                await todoTable.ExecuteAsync(updOperation);
+
+                string message = $"Todo {id} updated on Table";
+                log.LogInformation(message);
+
+                return new ObjectResult(new Response
+                {
+                    IsSuccess = true,
+                    Result = todoEntity
+                });
+            }
+
+            return new BadRequestObjectResult(new Response
+            {
+                IsSuccess = false,
+                Message = "Bad Request."
             });
         }
     }
