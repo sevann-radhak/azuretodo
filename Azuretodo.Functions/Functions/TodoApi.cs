@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAzure.Storage.Table;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -56,6 +57,27 @@ namespace Azuretodo.Functions.Functions
             {
                 IsSuccess = true,
                 Result = todoEntity
+            });
+        }
+
+        [FunctionName(nameof(GetTodo))]
+        public static async Task<IActionResult> GetTodo(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "todo")] HttpRequest req,
+            [Table("todo", Connection = "AzureWebJobsStorage")] CloudTable todoTable,
+            ILogger log)
+        {
+            log.LogInformation("Get received.");
+
+            TableQuery<TodoEntity> query = new TableQuery<TodoEntity>();
+            TableQuerySegment<TodoEntity> todos = await todoTable.ExecuteQuerySegmentedAsync(query, null);
+
+            string message = $"Retrieved All Todos";
+            log.LogInformation(message);
+
+            return new ObjectResult(new Response
+            {
+                IsSuccess = true,
+                Result = todos
             });
         }
 
