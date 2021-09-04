@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azuretodo.Common", "Azuretodo.Common\Azuretodo.Common.csproj", "{180DAAEC-78BF-4029-B7EB-DBA38B70406C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azuretodo.Common", "Azuretodo.Common\Azuretodo.Common.csproj", "{180DAAEC-78BF-4029-B7EB-DBA38B70406C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azuretodo.Functions", "Azuretodo.Functions\Azuretodo.Functions.csproj", "{60413A8D-E8F5-44CA-8FD1-A8CB42B159B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azuretodo.Functions", "Azuretodo.Functions\Azuretodo.Functions.csproj", "{60413A8D-E8F5-44CA-8FD1-A8CB42B159B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azuretodo.Test", "Azuretodo.Test\Azuretodo.Test.csproj", "{4ABE05AC-EB7B-4748-9D30-0AF659442752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azuretodo.Test", "Azuretodo.Test\Azuretodo.Test.csproj", "{4ABE05AC-EB7B-4748-9D30-0AF659442752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
