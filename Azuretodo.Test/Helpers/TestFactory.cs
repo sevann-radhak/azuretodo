@@ -12,19 +12,6 @@ namespace Azuretodo.Test.Helpers
 {
     public class TestFactory
     {
-        public static TodoEntity GetTodoEntity()
-        {
-            return new TodoEntity
-            {
-                ETag = "*",
-                PartitionKey = "TODO",
-                RowKey = Guid.NewGuid().ToString(),
-                CreatedTime = DateTime.UtcNow,
-                IsCompleted = false,
-                TaskDescription = "Task: enjoy life!"
-            };
-        }
-
         public static DefaultHttpRequest CreateHttpRequest()
         {
             return new DefaultHttpRequest(new DefaultHttpContext());
@@ -81,6 +68,18 @@ namespace Azuretodo.Test.Helpers
 
             return stream;
         }
+        public static TodoEntity GetTodoEntity()
+        {
+            return new TodoEntity
+            {
+                ETag = "*",
+                PartitionKey = "TODO",
+                RowKey = Guid.NewGuid().ToString(),
+                CreatedTime = DateTime.UtcNow,
+                IsCompleted = false,
+                TaskDescription = "Task: enjoy life!"
+            };
+        }
 
         public static Todo GetTodoRequest()
         {
@@ -89,6 +88,16 @@ namespace Azuretodo.Test.Helpers
                 CreatedTime = DateTime.UtcNow,
                 IsCompleted = false,
                 TaskDescription = "Try to conquer the World!"
+            };
+        }
+
+        public static Todo GetTodoRequestWithNullDescriptionError()
+        {
+            return new Todo
+            {
+                CreatedTime = DateTime.UtcNow,
+                IsCompleted = false,
+                TaskDescription = string.Empty
             };
         }
     }
