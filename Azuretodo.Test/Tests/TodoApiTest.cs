@@ -12,7 +12,7 @@ namespace Azuretodo.Test.Tests
 {
     public class TodoApiTest
     {
-        private readonly ILogger logger = TestFactory.CreateLogger();
+        private readonly ILogger _logger = TestFactory.CreateLogger();
 
         [Fact]
         public async void CreateTodo_Should_Return_200()
@@ -23,7 +23,24 @@ namespace Azuretodo.Test.Tests
             DefaultHttpRequest request = TestFactory.CreateHttpRequest(todoRequest);
 
             // Act
-            IActionResult response = await TodoApi.CreateTodo(request, mockTodos, logger);
+            IActionResult response = await TodoApi.CreateTodo(request, mockTodos, _logger);
+
+            // Assert
+            OkObjectResult result = (OkObjectResult)response;
+            Assert.Equal(StatusCodes.Status200OK, result.StatusCode);
+        }
+
+        [Fact]
+        public async void UpdateTodo_Should_Return_200()
+        {
+            // Arrenge
+            MockCloudTableTodos mockTodos = new MockCloudTableTodos(new Uri("http://127.0.0.1:10002/devstoreaccount1/reports"));
+            Todo todoRequest = TestFactory.GetTodoRequest();
+            Guid todoId = Guid.NewGuid();
+            DefaultHttpRequest request = TestFactory.CreateHttpRequest(todoId, todoRequest);
+            
+            // Act
+            IActionResult response = await TodoApi.UpdateTodo(request, mockTodos, todoId.ToString(), _logger);
 
             // Assert
             OkObjectResult result = (OkObjectResult)response;

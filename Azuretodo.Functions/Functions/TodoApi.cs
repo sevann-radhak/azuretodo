@@ -85,7 +85,7 @@ namespace Azuretodo.Functions.Functions
             string message = $"Todo Id: {id} deleted.";
             log.LogInformation(message);
 
-            return new ObjectResult(new Response
+            return new OkObjectResult(new Response
             {
                 IsSuccess = true,
                 Result = id
@@ -106,7 +106,7 @@ namespace Azuretodo.Functions.Functions
             string message = $"Retrieved All Todos";
             log.LogInformation(message);
 
-            return new ObjectResult(new Response
+            return new OkObjectResult(new Response
             {
                 IsSuccess = true,
                 Result = todos
@@ -134,7 +134,7 @@ namespace Azuretodo.Functions.Functions
             string message = $"Todo Id: {id} retrieved.";
             log.LogInformation(message);
 
-            return new ObjectResult(new Response
+            return new OkObjectResult(new Response
             {
                 IsSuccess = true,
                 Result = todoEntity
@@ -183,7 +183,7 @@ namespace Azuretodo.Functions.Functions
                 string message = $"Todo {id} updated on Table";
                 log.LogInformation(message);
 
-                return new ObjectResult(new Response
+                return new OkObjectResult(new Response
                 {
                     IsSuccess = true,
                     Result = todoEntity
