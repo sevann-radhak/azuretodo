@@ -53,9 +53,10 @@ namespace Azuretodo.Functions.Functions
             string message = $"New Todo stored on table";
             log.LogInformation(message);
 
-            return new ObjectResult(new Response
+            return new OkObjectResult(new Response
             {
                 IsSuccess = true,
+                Message = message,
                 Result = todoEntity
             });
         }
