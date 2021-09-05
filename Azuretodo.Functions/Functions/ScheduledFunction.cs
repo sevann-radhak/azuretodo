@@ -16,7 +16,7 @@ namespace Azuretodo.Functions.Functions
             [Table("todo", Connection = "AzureWebJobsStorage")] CloudTable todoTable,
             ILogger log)
         {
-            log.LogInformation($"Deleting completed Tasks trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"Deleting Tasks trigger function executed at: {DateTime.Now}");
 
             string filter = TableQuery.GenerateFilterConditionForBool("IsCompleted", QueryComparisons.Equal, true);
             TableQuery<TodoEntity> query = new TableQuery<TodoEntity>().Where(filter);
@@ -31,7 +31,6 @@ namespace Azuretodo.Functions.Functions
             }
 
             log.LogInformation($"Deleted {deleted} items at: {DateTime.Now}");
-
         }
     }
 }
